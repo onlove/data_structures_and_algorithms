@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding:0;
+        }
+        ul li{
+            list-style: none;
+        }
+        #ul{
+            margin: 20px auto;
+            height:auto;
+            border:1px solid #000;
+            border-right: none;
+            border-bottom:none;
+            overflow: hidden;
+        }
+        #ul li{
+            float: left;
+            border: 1px solid #000;
+            border-top:none;
+            border-left:none;
+            -webkit-background-size: cover;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+<ul id="ul"></ul>
+
+<script>
+    var oUl = document.getElementById('ul');
+    var aLi = oUl.getElementsByTagName('li');
+
+    var size = 4;
+    var len = size * size;
+    var sizeGrid = 50;
+
+    var arr = [];
+
+    for(var i = 0; i < len; i++) {
+        oUl.style.width = size * (sizeGrid + 1) + 'px';
+
+        var oLi = document.createElement('li');
+        oLi.style.width = sizeGrid + 'px';
+        oLi.style.height = sizeGrid + 'px';
+        oLi.innerHTML = i;
+        arr.push(i);
+        oUl.appendChild(oLi);
+    }
+
+    arr = changeXY(arr, size);
+
+    for(var i = 0; i < aLi.length; i++) {
+        aLi[i].innerHTML = arr[i];
+    }
+
+    function changeXY(arr, size) {
+        var newArr = [];
+        var iNow = 0;
+
+        (function () {
+            if(size == iNow) {
+                return;
+            }
+            for(var i = 0; i < arr.length; i++) {
+                if(i % size == iNow) {
+                    newArr.push(i)
+                }
+            }
+            iNow++;
+            arguments.callee();
+        })();
+
+        return newArr;
+    }
+
+
+</script>
+</body>
+</html>

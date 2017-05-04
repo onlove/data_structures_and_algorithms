@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding:0;
+        }
+        ul li {
+            list-style: none;
+        }
+        #ul{
+            margin: 20px auto;
+            height:auto;
+            border:1px solid #fff;
+            border-right: none;
+            border-bottom:none;
+
+            background-image: url(img/bg.jpg);
+            -webkit-background-size: cover;
+            background-size: cover;
+            overflow: hidden;
+        }
+        #ul li{
+            float: left;
+            border: 1px solid #fff;
+            border-top:none;
+            border-left:none;
+            -webkit-background-size: cover;
+            background-size: cover;
+        }
+        #ul li.active{
+            animation: .5s linear flash infinite;
+            -webkit-animation: .5s linear flash infinite;
+        }
+        @keyframes flash {
+            0%{
+                opacity: 0.1;
+            }
+            50%{
+                opacity: 1;
+            }
+            100%{
+                opacity: 0.1;
+            }
+        }
+
+        @-webkit-keyframes flash {
+            0%{
+                opacity: 0.1;
+            }
+            50%{
+                opacity: 1;
+            }
+            100%{
+                opacity: 0.1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<ul id="ul"></ul>
+
+<script>
+    var oUl = document.getElementById('ul');
+    var aLi = oUl.getElementsByTagName('li');
+    var size = 8;
+    var len = size * size;
+    var sizeGrid = 50;
+    var row = 0;
+    var col = 0;
+    var min = 0; //环数
+    var max = size - 1;
+
+    var arr = [];
+    var bgArr = [];
+
+    init();
+
+    function init() {
+        oUl.style.width = size * (sizeGrid + 1) + 'px';
+
+        for(var i = 0; i < len; i++) {
+            var oLi = document.createElement('li');
+            oLi.style.width = sizeGrid + 'px';
+            oLi.style.height = sizeGrid + 'px';
+            oUl.appendChild(oLi);
+        }
+
+        for(var i = 0; i < len; i++) {
+            aLi[row * size + col].innerHTML = i;
+            arr.push(aLi[row * size + col]);
+            if(row == min && col < max) {
+                col = col + 1;
+            }else if(col == max && row < max) {
+                row = row + 1;
+            }else if(row == max && col > min) {
+                col = col - 1;
+            }else if(col == min && row > min) {
+                row = row - 1;
+            }
+
+            //缩短环数
+            if(row - 1 == min && col == min) {
+                min = min + 1;
+                max = max - 1;
+            }
+        }
+
+        for(var i = 0; i < aLi.length; i++) {
+            if(i % 5 == 0) {
+                var bgImg = 'url(img/'+ Math.floor(Math.random() * 11 + 1)  +'.jpg)';
+                arr[i].style.backgroundImage = bgImg;
+                bgArr.push([i, bgImg])
+            }
+        }
+    }
+
+    run ();
+    setInterval(run, 1000);
+    function run (){
+
+        for(var i = 0; i <aLi.length; i++) {
+            aLi[i].style.backgroundImage = '';
+            aLi[i].className = '';
+        }
+
+        for(var i = 0; i < bgArr.length; i++) {
+            bgArr[i][0] = bgArr[i][0] + 1;
+
+            if(arr[bgArr[i][0]]) {
+                arr[bgArr[i][0]].style.backgroundImage = bgArr[i][1];
+                arr[bgArr[i][0]].className = 'active';
+                arr[bgArr[i][0]].style.animationDelay = -Math.random() * 2  + 's';
+                arr[bgArr[i][0]].style.webkitAnimationDelay = -Math.random() * 2  + 's';
+            }else{
+                bgArr.pop();
+                var bgImg = 'url(img/'+ Math.floor(Math.random() * 11 + 1)  +'.jpg)';
+                bgArr.unshift([0, bgImg]);
+            }
+
+        }
+    }
+</script>
+</body>
+</html>

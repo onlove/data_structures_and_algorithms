@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul li {
+            list-style: none;
+        }
+
+        #ul {
+            margin: 20px auto;
+            height: auto;
+            background-color: #242424;
+            overflow: hidden;
+        }
+
+        #ul li {
+            float: left;
+            -webkit-background-size: cover;
+            background-size: cover;
+        }
+
+        #ul li.box0 {
+            background-image: url(img/1.jpg);
+        }
+
+        #ul li.box1 {
+            background-image: url(img/2.jpg);
+        }
+
+        #ul li.box2 {
+            background-image: url(img/3.jpg);
+        }
+
+        #ul li.box3 {
+            background-image: url(img/3.jpg);
+        }
+
+        #ul li.box4 {
+            background-image: url(img/4.jpg);
+        }
+
+        #ul li.box5 {
+            background-image: url(img/5.jpg);
+        }
+    </style>
+</head>
+<body>
+<ul id="ul"></ul>
+
+<script>
+    var oUl = document.getElementById('ul');
+    var aLi = oUl.getElementsByTagName('li');
+
+    var size = 7;
+    var len = size * size;
+    var sizeGrid = 70;
+
+    for (var i = 0; i < len; i++) {
+        oUl.style.width = size * (sizeGrid + 1) + 'px';
+
+        var oLi = document.createElement('li');
+        oLi.style.width = sizeGrid + 'px';
+        oLi.style.height = sizeGrid + 'px';
+        oLi.className = 'box' + Math.floor(Math.random() * 6);
+        oUl.appendChild(oLi);
+    }
+
+    findElement();
+    function findElement() {
+        var arr = [];
+
+        function addArr(aLi) {
+            var iNum = 0;
+            var prevLi = aLi[0];
+            for (var i = 0; i < aLi.length; i++) {
+                if (aLi[i].className == prevLi.className && i % size != 0) {
+                    iNum++;
+                }
+                else {
+                    if (iNum >= 2) {
+                        for (var j = 0; j <= iNum; j++) {
+                            if (toCon(aLi[(i - 1) - j])) {
+                                arr.unshift(aLi[(i - 1) - j]);
+                            }
+                        }
+
+                    }
+                    iNum = 0;
+                }
+                prevLi = aLi[i];
+            }
+        }
+
+
+        function toCon(li) {
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i] == li) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        addArr(aLi);
+        addArr(changeXY(aLi, size));
+        console.log(arr);
+
+        for (var i = 0; i < aLi.length; i++) {
+            aLi[i].style.opacity = 0.3
+        }
+
+        for (var i = 0; i < arr.length; i++) {
+            arr[i].style.opacity = 1
+        }
+    }
+
+
+    function changeXY(arr, size) {
+        var newArr = [];
+        var iNow = 0;
+        (function () {
+            if (iNow == size) {
+                return;
+            }
+            for (var i = 0; i < arr.length; i++) {
+                if (i % size == iNow) {
+                    newArr.push(arr[i]);
+                }
+            }
+            iNow++;
+            arguments.callee();
+        })();
+        return newArr;
+    }
+
+
+</script>
+</body>
+</html>

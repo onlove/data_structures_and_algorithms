@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    /*
+     * 背包问题
+     * */
+    var M = 5;
+    var W = 16;
+    var arrP = [4, 5, 10, 11, 12];
+    var arrW = [3, 4, 7, 8, 9];
+
+
+    /*
+     * 贪心算法
+     *  在对问题求解时，总是做出当前看来是最好的选择。也就是说，不从整体
+     *  最优上加以考虑，他所做出的是在某种意义上的局部最优解
+     *
+     *  部分背包：体积和价值可以拆解
+     * */
+
+    function show(M, W, arrP, arrW) {
+        var wholeArr = [];
+        var result = 0;
+        for(var i = 0; i < M; i++) {
+            wholeArr.push({p: arrP[i], w: arrW[i], r: arrP[i] / arrW[i]})
+        }
+        wholeArr.sort(function(val1, val2) {
+            return val2.r - val1.r;
+        });
+        console.log(wholeArr);
+
+        for(var i = 0; i < wholeArr.length; i++) {
+            if(wholeArr[i].w <= W) {
+                result += wholeArr[i].p;
+                W -= wholeArr[i].w;
+            }
+            else {
+                result += W / wholeArr[i].w * wholeArr[i].p;
+                break;
+            }
+        }
+        return result.toFixed(2);
+    }
+
+    console.log(show(M, W, arrP, arrW))
+    /*
+    * 价值比
+    * */
+</script>
+</body>
+</html>

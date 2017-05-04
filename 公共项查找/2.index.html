@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    /*
+    * 公共子项查找
+    * */
+
+    var arr_arr = [[3, 8, 5], [1, 9, 4, 3, 6, 7, 5, 2], [3, 4, 5], [5, 6 ,7, 3]];
+
+    function show(arr) {
+        var wholeArr = [];
+        var json = {};
+        var result = [];
+        for(var i = 0; i < arr.length; i++) {
+            wholeArr = wholeArr.concat(unique(arr[i]));
+        }
+
+        for(var i = 0 ; i < wholeArr.length; i++) {
+            if(!json[wholeArr[i]]) {
+                json[wholeArr[i]] = [wholeArr[i]]
+            }else{
+                json[wholeArr[i]].push(wholeArr[i]);
+            }
+        }
+
+        for(var attr in json) {
+            if(json[attr].length == arr.length) {
+                result.push(attr)
+            }
+        }
+        console.log(result)
+    }
+
+    function unique(arr){
+        var json = {};
+        var result = [];
+        for(var i = 0 ; i < arr.length; i++) {
+            if( !json[arr[i]] ){
+                result.push(arr[i]);
+                json[arr[i]] = 1;
+            }
+        }
+        return result;
+    }
+
+    console.log(show(arr_arr))
+
+</script>
+</body>
+</html>

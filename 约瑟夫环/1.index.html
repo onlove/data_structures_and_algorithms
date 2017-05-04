@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    /*
+    * 链表：是由一组节点组成的集合，每个节点都有使用一个对象的引用指向它的后续
+    * */
+
+    function Node(element) {
+        this.element = element;
+        this.next = null;
+    }
+
+    function LList () {
+        this.head = new Node('head');
+
+    }
+
+    LList.prototype.find = function (item) {
+        var currentNode = this.head;
+        while(currentNode.element != item) {
+            currentNode = currentNode.next;
+        }
+        return currentNode;
+    };
+
+    LList.prototype.findPrevious = function (item) {
+        var currentNode = this.head;
+        while(currentNode != null && currentNode.next.element != item) {
+            currentNode = currentNode.next;
+        }
+        return currentNode;
+    };
+
+    LList.prototype.insert = function(newElement, item) {
+        var newNode = new Node(newElement);
+        var currentNode = this.find(item);
+        newNode.next = currentNode.next;
+        currentNode.next = newNode;
+    };
+
+    LList.prototype.display = function () {
+        var currentNode = this.head;
+        var result = [];
+        while(currentNode.next != null) {
+            result.push(currentNode.next.element);
+            currentNode = currentNode.next;
+        }
+        return result;
+    };
+
+    LList.prototype.remove = function (item) {
+        var prevNode = this.findPrevious(item);
+        var currentNode = this.find(item);
+        prevNode.next = currentNode.next
+    };
+
+    var obj = new LList();
+    obj.insert('a', 'head');
+    obj.insert('b', 'a');
+    obj.insert('c', 'b');
+    obj.insert('d', 'a');
+    console.log(obj.display());
+    obj.remove('b');
+    console.log(obj.display());
+
+</script>
+</body>
+</html>

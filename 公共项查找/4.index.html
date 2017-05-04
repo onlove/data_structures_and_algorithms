@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    /*
+    * 查找最长公共子串
+    * */
+
+    var arr_str = ["asdshowccc", "ddshowceasd", "helloshow", 'showhehe'];
+
+    function show(arr) {
+        arr = sortStr(arr);
+        var firstStr = arr.shift();
+        var strArr = [];
+        var count = 0;
+        var result = '';
+
+        for(var i = 0; i < firstStr.length; i++) {
+            for(var j = i + 1; j < firstStr.length; j++){
+                strArr.push(firstStr.substring(i, j))
+            }
+        }
+
+        for(var i = 0; i < strArr.length; i++) {
+            var wholeArr = [];
+            var reg = new RegExp(strArr[i]);
+            for(var j = 0; j < arr.length; j++) {
+                var reArr = arr[j].match(reg);
+                if(reArr) {
+                    wholeArr = wholeArr.concat(reArr);
+                    console.log(wholeArr)
+                }
+            }
+
+            if(wholeArr.length == arr.length) {
+                if(wholeArr[0].length > count) {
+                    count++;
+                    result = wholeArr[0];
+                }
+            }
+        }
+
+        return result;
+    }
+
+    function sortStr(arr) {
+        return arr.sort(function(str1, str2) {
+            return str1.length - str2.length
+        })
+    }
+    console.log(show(arr_str))
+
+</script>
+</body>
+</html>

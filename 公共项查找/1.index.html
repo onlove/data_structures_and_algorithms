@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    /*
+    * 公共子项查找
+    * */
+
+    var arr_arr = [[3, 8, 5, 3], [1, 9, 4, 3, 6, 7, 5, 2]];
+
+    function show(arr) {
+        var arr0 = unique(arr[0]);
+        var arr1 = unique(arr[1]);
+        var result = [];
+        for(var i = 0; i < arr0.length; i++) {
+            for(var j = 0; j < arr1.length; j++) {
+                if(arr0[i] == arr1[j]) {
+                    result.push(arr0[i]);
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+    function unique(arr){
+        var json = {};
+        var result = [];
+        for(var i = 0 ; i < arr.length; i++) {
+            if( !json[arr[i]] ){
+                result.push(arr[i]);
+                json[arr[i]] = 1;
+            }
+        }
+        return result;
+    }
+
+    console.log(show(arr_arr))
+
+</script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    /*
+    * 组合
+    * */
+
+
+    function C(m, n) {
+        return f(m) / (f(m - n) * f(n))
+    }
+
+    function f(num) {
+        if(num <= 1) return 1;
+        return f(num - 1) * num;
+    }
+
+    console.log(C(4, 2))
+
+</script>
+</body>
+</html>

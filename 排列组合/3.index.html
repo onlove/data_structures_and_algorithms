@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+
+   function A(m, n) {
+        return f(m) / f(m -n);
+   }
+
+   function f(num) {
+       if(num <= 1) return 1;
+       return num * f(num - 1);
+   }
+
+   console.log(A(4, 1));
+
+</script>
+</body>
+</html>

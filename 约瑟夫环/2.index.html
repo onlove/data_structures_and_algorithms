@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    /*
+    * 链表：是由一组节点组成的集合，每个节点都有使用一个对象的引用指向它的后续
+    * */
+
+    function Node(element) {
+        this.element = element;
+        this.next = null;
+    }
+
+    function LList () {
+        this.head = new Node('head');
+        this.head.next = this.head;
+        this.length = 0;
+    }
+
+    LList.prototype.find = function (item) {
+        var currentNode = this.head;
+        while(currentNode.element != item) {
+            currentNode = currentNode.next;
+        }
+        return currentNode;
+    };
+
+    LList.prototype.findPrevious = function (item) {
+        var currentNode = this.head;
+        while(currentNode != null && currentNode.next.element != item) {
+            currentNode = currentNode.next;
+        }
+        return currentNode;
+    };
+
+    LList.prototype.insert = function(newElement, item) {
+        var newNode = new Node(newElement);
+        var currentNode = this.find(item);
+        newNode.next = currentNode.next;
+        currentNode.next = newNode;
+        this.length++;
+    };
+
+    LList.prototype.display = function () {
+        var currentNode = this.head;
+        var result = [];
+        while(currentNode.next != null && currentNode.next.element != 'head') {
+            result.push(currentNode.next.element);
+            currentNode = currentNode.next;
+        }
+        return result;
+    };
+
+    LList.prototype.remove = function (item) {
+        var prevNode = this.findPrevious(item);
+        var currentNode = this.find(item);
+        prevNode.next = currentNode.next;
+        this.length--;
+    };
+
+
+    function killGame (num, step) {
+        var people = new LList();
+        people.insert(1, 'head');
+
+        for(var i = 1; i < num; i++){
+            people.insert(i + 1, i);
+        }
+
+        console.log(people.display());
+        console.log(people.find(41));
+
+        var iNow = 0;
+        var dir = 'head';
+
+        function whileFn() {
+            if(people.length < step) {
+                return;
+            }
+
+            iNow++;
+            dir = people.find(dir).next.element;
+
+            if(dir == 'head') {
+                dir = people.find(dir).next.element;
+            }
+
+            if(iNow == step) {
+                var removeDir = dir;
+                dir = people.findPrevious(dir).element;
+                people.remove(removeDir);
+                iNow = 0;
+            }
+            whileFn();
+        }
+        whileFn();
+
+        console.log("幸存的位置是:" + people.display())
+    }
+
+    killGame(100, 5)
+
+
+</script>
+</body>
+</html>

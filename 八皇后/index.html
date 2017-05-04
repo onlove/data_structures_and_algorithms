@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding:0;
+        }
+        ul li{
+            list-style: none;
+        }
+        #ul {
+            margin: 20px auto;
+            height: auto;
+            border:1px solid #fff;
+            border-right: none;
+            border-bottom: none;
+
+            background: url(img/bg.jpg);
+            -webkit-background-size:cover;
+            background-size:cover;
+
+            overflow: hidden;
+        }
+        #ul li{
+            float: left;
+            border: 1px solid #fff;
+            border-top: none;
+            border-left: none;
+            -webkit-background-size: cover;
+            background-size: cover;
+        }
+        #ul li.active{
+            animation: .5s linear flash infinite;
+        }
+        @keyframes flash {
+            0%{
+                opacity: 0.1;
+            }
+            50%{
+                opacity: 1;
+            }
+            100%{
+                opacity: 0.1;
+            }
+        }
+
+        @-webkit-keyframes flash {
+            0%{
+                opacity: 0.1;
+            }
+            50%{
+                opacity: 1;
+            }
+            100%{
+                opacity: 0.1;
+            }
+        }
+    </style>
+</head>
+<body>
+<ul id="ul"></ul>
+
+<script>
+
+    /*
+    * 横纵斜有且仅有一个皇后
+    * */
+
+    var oUl = document.getElementById('ul');
+    var aLi = oUl.getElementsByTagName('li');
+    var sizeGrid = 50;
+    var num = 8;
+    var iConut = 0;
+    var posArr = [];
+    var posAllArr = [];
+
+    init();
+
+    function init() {
+        createGrid();
+        setQueen(0);
+        console.log(posAllArr);
+    }
+
+    function createGrid () {
+        var len = num * num;
+
+        oUl.style.width = num * (sizeGrid + 1) + 'px';
+
+        for(var i = 0; i < len; i++){
+            var oLi = document.createElement('li');
+            oLi.style.height = sizeGrid + 'px';
+            oLi.style.width = sizeGrid + 'px';
+            oLi.index = -1;
+            //oLi.innerHTML = oLi.index;
+            oUl.appendChild(oLi)
+        }
+
+        for(var i = 0; i < num; i++) {
+            for(var j = 0; j < num; j++) {
+                aLi[i * num + j].x = j;
+                aLi[i * num + j].y = i;
+            }
+        }
+    }
+
+    /*
+    * 回溯
+    * */
+
+    function setQueen(iQueen) {
+
+        if(iQueen == num) {
+            posAllArr.push(posArr.concat());
+            iConut++;
+            return;
+        }
+
+        for(var i = 0; i < num; i++) {
+            if(aLi[iQueen * num + i].index == -1) {
+                aLi[iQueen * num + i].index = iQueen;
+               // aLi[iQueen * num + i].innerHTML = iQueen;
+                posArr.push(aLi[iQueen * num + i]);
+
+                var x = aLi[iQueen * num + i].x;
+                var y = aLi[iQueen * num + i].y;
+
+                for(var j = 0; j < aLi.length; j++) {
+                    if(aLi[j].index == -1 && (aLi[j].x == x || aLi[j].y == y || aLi[j].x - aLi[j].y == x - y ||  aLi[j].x + aLi[j].y == x + y)) {
+                        aLi[j].index = iQueen;
+                        //aLi[j].innerHTML = iQueen;
+                    }
+                }
+
+                setQueen(iQueen + 1);
+
+
+                //回溯
+                posArr.pop();
+                for(var j = 0; j < aLi.length; j++) {
+                    if(aLi[j].index == iQueen) {
+                        aLi[j].index = -1;
+                    }
+                }
+            }
+        }
+    }
+
+    function showImg () {
+        change();
+        setInterval(change, 2900);
+        function change () {
+
+            for(var i = 0; i < aLi.length; i++) {
+                aLi[i].style.backgroundImage = '';
+                aLi[i].className = '';
+            }
+
+            var randomLi = posAllArr[Math.floor(posAllArr.length * Math.random())];
+
+            for(var i = 0; i < randomLi.length; i++) {
+                randomLi[i].style.backgroundImage = 'url(img/'+ Math.floor(Math.random() * 11 + 1) +'.jpg)';
+                randomLi[i].className = 'active';
+                randomLi[i].style.animationDelay = -Math.random() * 2  + 's';
+                randomLi[i].style.webkitAnimationDelay = -Math.random() * 2  + 's';
+            }
+        }
+
+    }
+    showImg();
+
+
+
+</script>
+</body>
+</html>
